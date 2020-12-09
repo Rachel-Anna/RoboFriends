@@ -9,7 +9,6 @@ const CardList = ({users}) => {
             name={robot.name}
             email={robot.email}
         />
-    
     })
     return (
         <div>
