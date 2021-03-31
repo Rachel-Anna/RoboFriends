@@ -5,7 +5,7 @@ import Scroll from "../Components/Scroll";
 import "./App.css";
 import ErrorBoundary from "../Components/ErrorBoundaries";
 
-class App extends Component {
+function App extends Component {
     constructor(){
         super();
         this.state = {
