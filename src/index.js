@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider, connect } from 'react-redux';
+import { createStore } from 'redux';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import "tachyons";
 import App from "./Containers/App";
+import { searchRobots } from './Containers/reducers';
 
+const store = createStore(searchRobots);
 
 ReactDOM.render(
-  <div>
-  <App />
-  </div>
+  <>
+  <App store={store} />
+  </>
   ,document.getElementById('root')
 );
 
