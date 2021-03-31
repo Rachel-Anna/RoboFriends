@@ -22,6 +22,7 @@ class App extends Component {
         .then(users => {
             this.setState({robots: users})
         })
+        console.log(this.state.store);
     }
 
     onSearchChange = (event) => {
