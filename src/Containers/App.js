@@ -6,19 +6,23 @@ import Scroll from "../Components/Scroll";
 import "./App.css";
 import ErrorBoundary from "../Components/ErrorBoundaries";
 
-import { setSearchField } from './action';
+import { setSearchField, requestRobots } from './action';
 
-const mapStateToProps = state => {
+const mapStateToProps = state => { //state is the store 
     return {
-        searchField: state.searchField
+        searchField: state.searchRobots.searchField,
+        robots: state.requestRobots.robots,
+        isPending: state.requestRobots.isPending,
+        error: state.requestRobots.error
     }
 }
 //this monitors what store changes we are interested in 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
-
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        //The dispatch function is what sends the data to the reducer function
+        onRequestRobots: () => dispatch(requestRobots())
     }
 }
 //onSearchChange is a prop that could be called anything
@@ -26,33 +30,18 @@ const mapDispatchToProps = (dispatch) => {
 //that need to get dispatched
 
 class App extends Component {
-    constructor(){
-        super();
-        this.state = {
-            robots: [],
-            
-        }
-    }
-
+    
     componentDidMount() {
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then(response=> {
-            return response.json();
-        })
-        .then(users => {
-            this.setState({robots: users})
-        })
-        console.log(this.state.store);
+        this.props.onRequestRobots();
     }
 
   
     render(){
-        const { robots } = this.state;
-        const { searchField, onSearchChange } = this.props;
+        const { searchField, onSearchChange, robots, isPending } = this.props;
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchField.toLowerCase());
         })
-        return !robots.length ?
+        return isPending ?
         <h1 className ="tc">Loading</h1> :
         (
             <div className="tc">
